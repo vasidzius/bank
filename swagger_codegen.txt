@@ -1,0 +1,1 @@
+java -jar swagger-codegen-cli-2.2.1.jar generate -i C:\Users\Vkov\.IdeaIC2018.1\config\scratches\scratch_3.json -l typescript-angular2 -o C:\temp\bank

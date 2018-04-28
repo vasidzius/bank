@@ -1,0 +1,24 @@
+allTransfersShouldBeExecutedSmall:
+
+With SimpleAsyncTaskExecutor it takes 2489 millisec
+With SimpleAsyncTaskExecutor it takes 1857 millisec
+
+With SyncTaskExecutor it takes 1178 millisec
+With SyncTaskExecutor it takes 1202 millisec
+
+allTransfersShouldBeExecutedBig :
+
+With SyncTaskExecutor it takes 7502 millisec
+With SimpleAsyncTaskExecutor it takes 19811 millisec
+With ThreadPoolTaskExecutor it takes 14373 millisec
+With ConcurrentTaskExecutor it takes 9057 millisec
+With new Thread() it takes 17822 millisec
+
+allTransfersShouldBeExecutedBig with little weight - 1 millisec:
+
+With SyncTaskExecutor it takes 88774 millisec
+With SimpleAsyncTaskExecutor it takes 18509 millisec
+With ThreadPoolTaskExecutor it takes 125063 millisec
+With ConcurrentTaskExecutor it takes 146004 millisec
+With new Thread() it takes 17307 millisec
+With ThreadPoolExecutor it takes 18214 millisec
