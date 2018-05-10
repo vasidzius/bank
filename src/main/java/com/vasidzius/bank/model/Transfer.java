@@ -18,11 +18,11 @@ public class Transfer {
 
     @JoinColumn(name = "FROM_ACCOUNT_ID")
     @ManyToOne
-    private Account fromAccountId;
+    private Account fromAccount;
 
     @JoinColumn(name = "TO_ACCOUNT_ID")
     @ManyToOne
-    private Account toAccountId;
+    private Account toAccount;
 
     @Column(name = "AMOUNT")
     private double amount;

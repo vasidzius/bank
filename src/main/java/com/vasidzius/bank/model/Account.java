@@ -11,6 +11,12 @@ import javax.validation.constraints.DecimalMin;
 @EqualsAndHashCode(of = "id")
 public class Account {
 
+    public Account(double state){
+        this.state = state;
+    }
+
+    public Account(){};
+
     @Id
     @Column(name = "ID")
     @SequenceGenerator(name = "ACCOUNTS_SEQ", initialValue = 1000)
