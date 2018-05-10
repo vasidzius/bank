@@ -5,15 +5,15 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-@Entity(name = "TRANSACTIONS")
+@Entity(name = "TRANSFERS")
 @Data
 @EqualsAndHashCode(of = "id")
-public class Transaction {
+public class Transfer {
 
     @Id
     @Column(name = "ID")
-    @SequenceGenerator(name = "TRANSACTIONS_SEQ", initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRANSACTIONS_SEQ")
+    @SequenceGenerator(name = "TRANSFERS_SEQ", initialValue = 1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRANSFERS_SEQ")
     private long id;
 
     @JoinColumn(name = "FROM_ACCOUNT_ID")
@@ -26,4 +26,7 @@ public class Transaction {
 
     @Column(name = "AMOUNT")
     private double amount;
+
+    @Column(name = "EXECUTED")
+    private Boolean executed;
 }
