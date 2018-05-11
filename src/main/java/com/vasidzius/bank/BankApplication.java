@@ -1,6 +1,7 @@
 package com.vasidzius.bank;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vasidzius.bank.controller.TransfersExecutor;
+import com.vasidzius.bank.spring.ApplicationContextProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +10,9 @@ public class BankApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BankApplication.class, args);
-	}
+        TransfersExecutor transferStarter = ApplicationContextProvider.getBean(TransfersExecutor.class);
+        transferStarter.startTransfers();
+    }
 
 
 }

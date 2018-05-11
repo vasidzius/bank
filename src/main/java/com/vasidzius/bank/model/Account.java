@@ -19,8 +19,8 @@ public class Account {
 
     @Id
     @Column(name = "ID")
-    @SequenceGenerator(name = "ACCOUNTS_SEQ", initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTS_SEQ")
+    @SequenceGenerator(name = "accounts", sequenceName = "ACCOUNTS_SEQ", initialValue = 1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts")
     private long id;
 
     @Column(name = "STATE")

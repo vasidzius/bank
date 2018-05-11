@@ -12,8 +12,8 @@ public class Transfer {
 
     @Id
     @Column(name = "ID")
-    @SequenceGenerator(name = "TRANSFERS_SEQ", initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRANSFERS_SEQ")
+    @SequenceGenerator(name = "transfers", sequenceName = "TRANSFERS_SEQ", initialValue = 1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transfers")
     private long id;
 
     @JoinColumn(name = "FROM_ACCOUNT_ID")

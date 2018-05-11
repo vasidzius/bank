@@ -3,13 +3,11 @@ package com.vasidzius.bank.controller;
 import com.vasidzius.bank.model.Transfer;
 import com.vasidzius.bank.repository.TransferRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/transfers")
@@ -29,5 +27,8 @@ public class TransferController {
         return transferRepository.save(transfer);
     }
 
-
+    @GetMapping(value = "/{transferId}")
+    public Transfer find(@PathVariable("transferId") long transferId) {
+        return transferRepository.getOne(transferId);
+    }
 }

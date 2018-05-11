@@ -1,8 +1,6 @@
-package com.vasidzius.bank;
+package com.vasidzius.bank.controller;
 
-import com.vasidzius.bank.controller.AccountController;
-import com.vasidzius.bank.controller.OperationController;
-import com.vasidzius.bank.controller.TransferController;
+import com.vasidzius.bank.BankApplication;
 import com.vasidzius.bank.model.Account;
 import com.vasidzius.bank.model.Transfer;
 import org.junit.Test;
@@ -13,11 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -26,12 +25,9 @@ import static org.junit.Assert.*;
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-public class TransfersStarterTest {
+public class TransfersExecutorTest {
 
     private static final int INITIAL_SEQUENCE_VALUE = 1000;
-
-    @Autowired
-    private OperationController operationController;
 
     @Autowired
     private AccountController accountController;
@@ -40,35 +36,37 @@ public class TransfersStarterTest {
     private TransferController transferController;
 
     @Autowired
-    private TransfersStarter starter;
+    private TransfersExecutor transfersExecutor;
 
     private Random random = new Random();
 
     @Test
-    public void mainTest() throws InterruptedException {
+    @Transactional
+    public void allTransfersShouldBeExecuted() throws InterruptedException {
         //given
         int accountsNumber = 100;
         double fullBank = 1000000; //1 million
-        long transfersNumber = 1000; //1 million
+        long transfersNumber = 1; //1 million
         createAccounts(accountsNumber, fullBank);
-        fillTransfers(transfersNumber, accountsNumber, fullBank/accountsNumber);
+        fillTransfers(transfersNumber, accountsNumber, fullBank/accountsNumber * 0.01);
 
         //when
-        starter.startTransfers();
+        transfersExecutor.startTransfers();
 
         //then
         Thread.sleep(3000);
         checkAccounts(accountsNumber, fullBank);
 
-        List<Transfer> all = checkTransfers(transfersNumber);
-        System.out.println(all.stream().map(Transfer::toString).collect(Collectors.joining("\n")));
+        checkTransfers(transfersNumber);
 
     }
 
-    private List<Transfer> checkTransfers(long transfersNumber) {
+    private void checkTransfers(long transfersNumber) {
         List<Transfer> all = transferController.findAll();
         assertEquals(transfersNumber + 4, all.size());
-        return all;
+        long nullsOrFalseExecuteds = all.stream().map(Transfer::getExecuted).filter(executed -> executed == null || !executed).count();
+        System.out.println(all.stream().map(Transfer::toString).collect(Collectors.joining("\n")));
+        assertEquals(0, nullsOrFalseExecuteds);
     }
 
     private void checkAccounts(int accountsNumber, double fullBank) {
@@ -84,10 +82,10 @@ public class TransfersStarterTest {
             transfer.setAmount(random.nextDouble() * valueInterval);
 
             int fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            transfer.setFromAccount(accountController.find(fromAccountId).orElseThrow(() -> new RuntimeException("Can't find account with id " + fromAccountId)));
+            transfer.setFromAccount(accountController.find(fromAccountId));
 
             int toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            transfer.setToAccount(accountController.find(toAccountId).orElseThrow(() -> new RuntimeException("Can't find account with id " + toAccountId)));
+            transfer.setToAccount(accountController.find(toAccountId));
 
             transferController.save(transfer);
         }
@@ -99,5 +97,21 @@ public class TransfersStarterTest {
             Account account = new Account(state);
             accountController.persist(account);
         }
+    }
+
+    @Test
+    @Transactional
+    public void executeTransfer(){
+        //given
+        Transfer transfer = transferController.find(1);
+
+        //when
+        transfersExecutor.executeTransfer(transfer);
+
+        //then
+        Account account1 = accountController.find(1);
+        assertEquals(90, account1.getState(), 1E-6);
+        Account account2 = accountController.find(2);
+        assertEquals(110, account2.getState(), 1E-6);
     }
 }
