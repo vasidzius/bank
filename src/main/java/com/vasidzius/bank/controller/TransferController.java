@@ -1,34 +1,35 @@
 package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.model.Transfer;
-import com.vasidzius.bank.repository.TransferRepository;
+import com.vasidzius.bank.repositories.jparepository.TransferJpaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/transfers")
 @AllArgsConstructor
-@Transactional
 public class TransferController {
 
-    private TransferRepository transferRepository;
+    private final TransferJpaRepository transferJpaRepository;
 
     @GetMapping
     public List<Transfer> findAll(){
-        return transferRepository.findAll();
+        return transferJpaRepository.findAll();
     }
 
     @PostMapping
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Transfer save(Transfer transfer){
-        return transferRepository.save(transfer);
+        return transferJpaRepository.saveAndFlush(transfer);
     }
 
     @GetMapping(value = "/{transferId}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Transfer find(@PathVariable("transferId") long transferId) {
-        return transferRepository.getOne(transferId);
+        return transferJpaRepository.getOne(transferId);
     }
 }

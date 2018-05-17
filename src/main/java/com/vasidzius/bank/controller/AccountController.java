@@ -1,23 +1,22 @@
 package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.model.Account;
-import com.vasidzius.bank.repository.AccountRepository;
+import com.vasidzius.bank.repositories.jparepository.AccountJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
-@RequiredArgsConstructor()
+@AllArgsConstructor
 @RequestMapping(value = "/accounts")
-@Transactional
 public class AccountController  {
 
-    private final AccountRepository accountRepository;
+    private final AccountJpaRepository accountRepository;
+//    private final AccountJdbcRepository accountRepository;
 
     @GetMapping
     public List<Account> findAll() {
@@ -25,11 +24,13 @@ public class AccountController  {
     }
 
     @PostMapping
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account persist(@RequestParam Account account) {
         return accountRepository.saveAndFlush(account);
     }
 
     @GetMapping(value = "/{accountId}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account find(@PathVariable("accountId") long accountId) {
         return accountRepository.getOne(accountId);
     }
