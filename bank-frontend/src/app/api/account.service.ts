@@ -29,14 +29,14 @@ import * as models from '../model/models';
 import {Account} from '../model/models';
 import 'rxjs/Rx';
 import {Error} from "tslint/lib/error";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 
 /* tslint:disable:no-unused-variable member-ordering */
 
 'use strict';
 
 @Injectable()
-export class AccountcontrollerApi {
+export class AccountService {
   public defaultHeaders: Headers = new Headers();
   protected basePath = 'https://localhost:8080/bank';
 
@@ -54,8 +54,8 @@ export class AccountcontrollerApi {
   public createAccountUsingPOST(balance: number): Observable<models.Account> {
     const path = this.basePath + '/accounts';
 
-    let queryParameters = new HttpParams();
-    let headerParams = this.defaultHeaders;
+    // let queryParameters = new HttpParams();
+    // let headerParams = this.defaultHeaders;
     // verify required parameter 'balance' is not null or undefined
     if (balance === null || balance === undefined) {
       throw new Error('Required parameter balance was null or undefined when calling createAccountUsingPOST.');
@@ -84,7 +84,7 @@ export class AccountcontrollerApi {
    *
    * @param accountId accountId
    */
-  public deleteAccountUsingDELETE(accountId: number, extraHttpRequestParams?: any): Observable<{}> {
+  public deleteAccountUsingDELETE(accountId: number): Observable<{}> {
     const path = this.basePath + '/accounts/{accountId}'
       .replace('{' + 'accountId' + '}', String(accountId));
 
@@ -116,7 +116,7 @@ export class AccountcontrollerApi {
    * Show all deleted Accounts
    *
    */
-  public findAllDeletedUsingGET(extraHttpRequestParams?: any): Observable<Array<models.Account>> {
+  public findAllDeletedUsingGET(): Observable<Array<models.Account>> {
     const path = this.basePath + '/accounts/allDeleted';
 
     // let queryParameters = new URLSearchParams();
@@ -154,7 +154,7 @@ export class AccountcontrollerApi {
     //     search: queryParameters
     // };
 
-    return this.http.get<Account[]>(path);
+    return this.http.get<Array<Account>>(path);
 
     // return this.http.request(path, requestOptions)
     //     .map((response: Response) => {
@@ -171,7 +171,7 @@ export class AccountcontrollerApi {
    *
    * @param accountId accountId
    */
-  public findUsingGET(accountId: number, extraHttpRequestParams?: any): Observable<models.Account> {
+  public findUsingGET(accountId: number): Observable<models.Account> {
     const path = this.basePath + '/accounts/{accountId}'
       .replace('{' + 'accountId' + '}', String(accountId));
 

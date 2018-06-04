@@ -4,8 +4,8 @@ import {HttpClientModule} from '@angular/common/http';
 
 
 import {AppComponent} from './app.component';
-import {AccountcontrollerApi} from "./api/AccountcontrollerApi";
-import {TransfercontrollerApi} from "./api/TransfercontrollerApi";
+import {AccountService} from "./api/account.service";
+import {TransferService} from "./api/transfer.service";
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import {TransfercontrollerApi} from "./api/TransfercontrollerApi";
     BrowserModule,
     HttpClientModule
   ],
-  providers: [AccountcontrollerApi, TransfercontrollerApi],
+  providers: [AccountService, TransferService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,2 +1,2 @@
-export * from './AccountcontrollerApi';
-export * from './TransfercontrollerApi';
+export * from './account.service';
+export * from './transfer.service';

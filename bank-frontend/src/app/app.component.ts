@@ -1,4 +1,5 @@
-import{Component}from'@angular/core';
+import {Component} from '@angular/core';
+import {AccountService} from "./api/account.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import{Component}from'@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  transfers = this.accountService.findUsingGET(1).toString();
+
   title = 'app';
+
+  constructor(private accountService: AccountService) {
+  }
 }

@@ -33,7 +33,7 @@ import 'rxjs/Rx';
 'use strict';
 
 @Injectable()
-export class TransfercontrollerApi {
+export class TransferService {
   public defaultHeaders: Headers = new Headers();
   protected basePath = 'https://localhost:8080/bank';
 

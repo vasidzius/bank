@@ -43,4 +43,6 @@ export interface Account {
   deleted?: boolean;
 
   id?: number;
+
+  toString?(): string;
 }
