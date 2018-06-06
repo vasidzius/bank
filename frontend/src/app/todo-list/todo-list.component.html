@@ -1,0 +1,15 @@
+<section class="main" *ngIf="getTodos().length > 0">
+  <ul class="todo-list">
+    <li *ngFor="let todo of getTodos()" [class.completed]="todo.complete">
+      <!--<div class="view">-->
+        <!--<input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">-->
+        <!--<label>{{todo.title}}</label>-->
+        <!--<button class="destroy" (click)="removeTodo(todo)"></button>-->
+      <!--</div>-->
+      <app-todo-list-item
+        [todo] = "todo"
+        (toggleComplete)="onToggleTodoComplete($event)"
+        (remove)="onRemoveTodo($event)"></app-todo-list-item>
+    </li>
+  </ul>
+</section>
