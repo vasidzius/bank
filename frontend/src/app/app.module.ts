@@ -8,7 +8,7 @@ import {TodoListHeaderComponent} from './todo-list-header/todo-list-header.compo
 import {TodoListComponent} from './todo-list/todo-list.component';
 import {TodoListItemComponent} from './todo-list-item/todo-list-item.component';
 import {TodoListFooterComponent} from './todo-list-footer/todo-list-footer.component';
-import {TodoDataService} from "./todo-data.service";
+import {TodoDataService} from "./api/services/todo-data.service";
 
 @NgModule({
   declarations: [

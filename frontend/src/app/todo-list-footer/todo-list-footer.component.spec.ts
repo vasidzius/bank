@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TodoListFooterComponent } from './todo-list-footer.component';
-import {Todo} from "../todo";
+import {Todo} from "../api/model/todo";
 
 describe('TodoListFooterComponent', () => {
   let component: TodoListFooterComponent;

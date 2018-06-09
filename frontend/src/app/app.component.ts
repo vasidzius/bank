@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {TodoDataService} from "./todo-data.service";
-import {Todo} from "./todo";
+import {Component, OnInit} from '@angular/core';
+import {TodoDataService} from "./api/services/todo-data.service";
+import {Todo} from "./api/model/todo";
 
 @Component({
   selector: 'app-root',
@@ -8,24 +8,43 @@ import {Todo} from "./todo";
   styleUrls: [ './app.component.css' ],
   providers: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+
+  todos: Todo[] = [];
 
   constructor( private todoDataService: TodoDataService ) {
   }
 
+  ngOnInit(): void {
+    this.todoDataService
+      .getAllTodos()
+      .subscribe(
+        (todos) => {
+          this.todos = todos;
+        }
+      )
+  }
+
   onToggleTodoComplete( todo ) {
-    this.todoDataService.toggleTodoComplete(todo);
+    this.todoDataService.toggleTodoComplete(todo)
+      .subscribe( updatedTodo => {
+        todo = updatedTodo;
+      });
   }
 
   onRemoveTodo( todo ) {
-    this.todoDataService.deleteTodoById(todo.id);
-  }
-
-  get todos() {
-    return this.todoDataService.getAllTodos();
+    this.todoDataService.deleteTodoById(todo.id)
+      .subscribe( () => {
+        this.todos = this.todos.filter( t => t.id != todo.id )
+      });
   }
 
   onAddTodo( todo: Todo ) {
-    this.todoDataService.addTodo(todo);
+    this.todoDataService.addTodo(todo)
+      .subscribe(
+        (newTodo) => {
+          this.todos.push(newTodo);
+        }
+      );
   }
 }
