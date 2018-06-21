@@ -9,6 +9,8 @@ import {TodoListComponent} from './todo-list/todo-list.component';
 import {TodoListItemComponent} from './todo-list-item/todo-list-item.component';
 import {TodoListFooterComponent} from './todo-list-footer/todo-list-footer.component';
 import {TodoDataService} from "./api/services/todo-data.service";
+import { AccountListComponent } from './account-list/account-list.component';
+import {AccountService} from "./api/services/account.service";
 
 @NgModule({
   declarations: [
@@ -16,14 +18,15 @@ import {TodoDataService} from "./api/services/todo-data.service";
     TodoListHeaderComponent,
     TodoListComponent,
     TodoListItemComponent,
-    TodoListFooterComponent
+    TodoListFooterComponent,
+    AccountListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule
   ],
-  providers: [ TodoDataService ],
+  providers: [ TodoDataService, AccountService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Todo} from "./model/todo";
+import {Todo} from "../model/todo";
 import {Observable} from "rxjs/internal/Observable";
 import {catchError} from "rxjs/operators";
 import {throwError} from 'rxjs';
 
-const API_URL = environment.apiUr;
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'

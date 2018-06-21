@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Todo} from "./model/todo";
+import {Todo} from "../model/todo";
 import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs/index";
 import {Observable} from "rxjs/internal/Observable";

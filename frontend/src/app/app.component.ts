@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TodoDataService} from "./api/services/todo-data.service";
-import {Todo} from "./api/model/todo";
+import {Todo} from "./model/todo";
+import {Account} from "./model/account";
+import {AccountService} from "./api/services/account.service";
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,12 @@ import {Todo} from "./api/model/todo";
 export class AppComponent implements OnInit{
 
   todos: Todo[] = [];
+  accounts: Account[] = [];
 
-  constructor( private todoDataService: TodoDataService ) {
-  }
+  constructor(
+    private todoDataService: TodoDataService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.todoDataService
@@ -21,6 +26,14 @@ export class AppComponent implements OnInit{
       .subscribe(
         (todos) => {
           this.todos = todos;
+        }
+      )
+
+    this.accountService
+      .findAllUsingGET()
+      .subscribe(
+        accounts => {
+          this.accounts = accounts;
         }
       )
   }
