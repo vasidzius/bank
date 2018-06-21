@@ -12,12 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/transfers")
 @AllArgsConstructor
 @Api
+@CrossOrigin(value = "http://localhost:4200")
 public class TransferController {
 
     private final TransferJdbcRepository transferJdbcRepository;

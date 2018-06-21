@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping(value = "/accounts", produces = "application/json")
 @Api
+@CrossOrigin(value = "http://localhost:4200")
 public class AccountController {
 
     private final AccountJdbcRepository accountRepository;
