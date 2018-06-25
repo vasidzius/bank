@@ -1,8 +1,10 @@
 package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.BaseTest;
+import com.vasidzius.bank.generator.ValueGenerator;
 import com.vasidzius.bank.model.Account;
 import com.vasidzius.bank.model.Transfer;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.vasidzius.bank.controller.GeneratingAmount.getAmount;
 import static com.vasidzius.bank.spring.Constants.INITIAL_SEQUENCE_VALUE;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -39,10 +40,13 @@ public class TransfersExecutorTest extends BaseTest {
     @Autowired
     private Executor taskExecutor;
 
+    @Autowired
+    private ValueGenerator valueGenerator;
+
     private Random random = new Random();
 
     @Test
-//    @Ignore
+    @Ignore
     public void BFT() {
         //given
         runFT(1234567,
@@ -68,41 +72,8 @@ public class TransfersExecutorTest extends BaseTest {
     }
 
     private void runFT(int accountsNumber, int threadNumberBetweenTwo, int transfersBetweenTwo, int accountsToDelete, int transfersIncreasing, int transfersDecreasing, int delayBeforeStartTransfersMillis) {
-        LOGGER.info("Generate values");
-        double initialBalance = 123456.58;
-        double valueIntervalForTransfers = initialBalance * 0.01;
-        createAccounts(accountsNumber, initialBalance);
-        double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
 
-        //when
-        for (int i = 0; i < threadNumberBetweenTwo; i++) {
-            taskExecutor.execute(() -> {
-                for (int j = 0; j < transfersBetweenTwo; j++) {
-                    createTransferBetweenTwo(accountsNumber, valueIntervalForTransfers);
-                }
-            });
-        }
-
-        taskExecutor.execute(() -> {
-            for (int i = 0; i < accountsToDelete; i++) {
-                customWait();
-                int deleteId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-                accountController.deleteAccount(deleteId);
-                LOGGER.info("delete accountId" + deleteId);
-            }
-        });
-
-        taskExecutor.execute(() -> {
-            for (int i = 0; i < transfersIncreasing; i++) {
-                createIncreasingTransfer(accountsNumber, valueIntervalForTransfers);
-            }
-        });
-
-        taskExecutor.execute(() -> {
-            for (int i = 0; i < transfersDecreasing; i++) {
-                createDecreasingTransfer(accountsNumber, valueIntervalForTransfers);
-            }
-        });
+        double fullBank = valueGenerator.generateValues(accountsNumber, threadNumberBetweenTwo, transfersBetweenTwo, accountsToDelete, transfersIncreasing, transfersDecreasing);
 
         startTransfers(delayBeforeStartTransfersMillis);
 
@@ -122,14 +93,6 @@ public class TransfersExecutorTest extends BaseTest {
         checkAccounts(accountsNumber, fullBank + increasingSum - decreasingSum);
     }
 
-    private void customWait() {
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
 //    @Ignore
     public void allTransfersBetweenTwoAccountsShouldBeExecuted() {
@@ -138,8 +101,8 @@ public class TransfersExecutorTest extends BaseTest {
         int accountsNumber = 1234501;
         double initialBalance = 123456.58;
         long transfersNumber = 45671;
-        createAccounts(accountsNumber, initialBalance);
-        randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
+        valueGenerator.randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
         double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
 
         //when
@@ -157,8 +120,8 @@ public class TransfersExecutorTest extends BaseTest {
         int accountsNumber = 1000;
         double initialBalance = 10000;
         long transfersNumber = 1234;
-        createAccounts(accountsNumber, initialBalance);
-        randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
+        valueGenerator.randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
         double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
 
         //when
@@ -179,10 +142,10 @@ public class TransfersExecutorTest extends BaseTest {
         long increasingTransfersNumber = 50;
         long decreasingTransfersNumber = 100;
         long transfersBetweenTwo = transfersNumber - increasingTransfersNumber - decreasingTransfersNumber;
-        createAccounts(accountsNumber, initialBalance);
-        randomFillTransfers(transfersBetweenTwo, accountsNumber, initialBalance * 0.01);
-        createTransfersToIncreasing(increasingTransfersNumber, accountsNumber, initialBalance * 0.01);
-        createTransfersToDecreasing(decreasingTransfersNumber, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
+        valueGenerator.randomFillTransfers(transfersBetweenTwo, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createTransfersToIncreasing(increasingTransfersNumber, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createTransfersToDecreasing(decreasingTransfersNumber, accountsNumber, initialBalance * 0.01);
         double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
 
         //when
@@ -202,8 +165,8 @@ public class TransfersExecutorTest extends BaseTest {
         int accountsNumber = 100;
         double initialBalance = 10000;
         long transfersNumber = 100;
-        createAccounts(accountsNumber, initialBalance);
-        randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
+        valueGenerator.randomFillTransfers(transfersNumber, accountsNumber, initialBalance * 0.01);
         int numberToDelete = 10;
         double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
         List<Long> deletedAccounts = randomDeleteAccounts(numberToDelete, accountsNumber);
@@ -267,7 +230,7 @@ public class TransfersExecutorTest extends BaseTest {
         int accountsNumber = 2;
         long initialBalance = 5000;
         long transfersNumber = 5000;
-        createAccounts(accountsNumber, initialBalance);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
         int fromAccountId = INITIAL_SEQUENCE_VALUE;
         int toAccountId = INITIAL_SEQUENCE_VALUE + 1;
         fillTransfers(transfersNumber / 2, fromAccountId, toAccountId);
@@ -292,7 +255,7 @@ public class TransfersExecutorTest extends BaseTest {
         int accountsNumber = 2;
         long initialBalance = 5000;
         long transfersNumber = 5000;
-        createAccounts(accountsNumber, initialBalance);
+        valueGenerator.createAccounts(accountsNumber, initialBalance);
         int fromAccountId = INITIAL_SEQUENCE_VALUE;
         int toAccountId = INITIAL_SEQUENCE_VALUE + 1;
         fillTransfers(transfersNumber, fromAccountId, toAccountId);
@@ -340,72 +303,10 @@ public class TransfersExecutorTest extends BaseTest {
         assertEquals(fullBank, sum + sumDeleted, 1E-2);
     }
 
-    private void createIncreasingTransfer(int accountsNumber, double valueInterval) {
-        long toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-        TransferRequest transferRequest = new TransferRequest(null, toAccountId, getAmount(valueInterval));
-        Transfer transfer = transferController.create(transferRequest);
-        LOGGER.info("create increasing" + transfer);
-    }
-
-    private void createDecreasingTransfer(int accountsNumber, double valueInterval) {
-        long fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-        TransferRequest transferRequest = new TransferRequest(fromAccountId, null, getAmount(valueInterval));
-        Transfer transfer = transferController.create(transferRequest);
-        LOGGER.info("create decreasing" + transfer);
-    }
-
-    private void createTransfersToIncreasing(long increasingTransfersNumber, int accountsNumber, double valueInterval) {
-        for (int i = 0; i < increasingTransfersNumber; i++) {
-            long toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            TransferRequest transferRequest = new TransferRequest(null, toAccountId, getAmount(valueInterval));
-            transferController.create(transferRequest);
-        }
-    }
-
-    private void createTransfersToDecreasing(long decreasingTransfersNumber, int accountsNumber, double valueInterval) {
-        for (int i = 0; i < decreasingTransfersNumber; i++) {
-            long fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            TransferRequest transferRequest = new TransferRequest(fromAccountId, null, getAmount(valueInterval));
-            transferController.create(transferRequest);
-        }
-    }
-
-
-    private void createTransferBetweenTwo(int accountsNumber, double valueInterval) {
-        long fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-        long toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-        while (fromAccountId == toAccountId) {
-            fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-        }
-        TransferRequest transferRequest = new TransferRequest(fromAccountId, toAccountId, getAmount(valueInterval));
-        Transfer transfer = transferController.create(transferRequest);
-        LOGGER.info("create between two" + transfer);
-    }
-
-    private void randomFillTransfers(long transfersNumber, int accountsNumber, double valueInterval) {
-        for (int i = 0; i < transfersNumber; i++) {
-            long fromAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            long toAccountId = random.nextInt(accountsNumber) + INITIAL_SEQUENCE_VALUE;
-            if (fromAccountId != toAccountId) {
-                TransferRequest transferRequest = new TransferRequest(fromAccountId, toAccountId, getAmount(valueInterval));
-                transferController.create(transferRequest);
-            } else {
-                i--;
-            }
-        }
-    }
-
     private void fillTransfers(long transfersNumber, long fromAccountId, long toAccountId) {
         for (int i = 0; i < transfersNumber; i++) {
             TransferRequest transferRequest = new TransferRequest(fromAccountId, toAccountId, 1);
             transferController.create(transferRequest);
-        }
-    }
-
-    private void createAccounts(int accountsNumber, double balance) {
-        for (int i = 0; i < accountsNumber; i++) {
-            accountController.createAccount(balance);
         }
     }
 

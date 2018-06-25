@@ -1,11 +1,7 @@
-package com.vasidzius.bank.controller;
+package com.vasidzius.bank.generator;
 
 import lombok.SneakyThrows;
-import org.junit.Test;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 import java.util.Random;
 
 public class GeneratingAmount {
