@@ -58,10 +58,28 @@ public class ValueGenerator {
         LOGGER.info("create between two" + transfer);
     }
 
-    public double generateValues(int accountsNumber, int threadNumberBetweenTwo, int transfersBetweenTwo, int accountsToDelete, int transfersIncreasing, int transfersDecreasing) {
-        LOGGER.info("Generate values");
+    public double generateValues(
+            int accountsNumber,
+            int threadNumberBetweenTwo,
+            int transfersBetweenTwo,
+            int accountsToDelete,
+            int transfersIncreasing,
+            int transfersDecreasing) {
+        LOGGER.info(String.format("Generate values: \n" +
+                "accountsNumber %d, \n" +
+                "threadNumberBetweenTwo %d, \n" +
+                "transfersBetweenTwo %d, \n" +
+                "accountsToDelete %d, \n" +
+                "transfersIncreasing %d, \n" +
+                "transfersDecreasing %d",
+                accountsNumber,
+                transfersBetweenTwo,
+                transfersBetweenTwo,
+                accountsToDelete,
+                transfersIncreasing,
+                transfersDecreasing));
         double initialBalance = 123456.58;
-        double valueIntervalForTransfers = initialBalance * 0.01;
+        double valueRangeForTransfersAmount = initialBalance * 0.01;
         createAccounts(accountsNumber, initialBalance);
         double fullBank = accountController.findAll().getBody().stream().mapToDouble(Account::getBalanceDoubleView).sum();
 
@@ -69,7 +87,7 @@ public class ValueGenerator {
         for (int i = 0; i < threadNumberBetweenTwo; i++) {
             taskExecutor.execute(() -> {
                 for (int j = 0; j < transfersBetweenTwo; j++) {
-                    createTransferBetweenTwo(accountsNumber, valueIntervalForTransfers);
+                    createTransferBetweenTwo(accountsNumber, valueRangeForTransfersAmount);
                 }
             });
         }
@@ -85,13 +103,13 @@ public class ValueGenerator {
 
         taskExecutor.execute(() -> {
             for (int i = 0; i < transfersIncreasing; i++) {
-                createIncreasingTransfer(accountsNumber, valueIntervalForTransfers);
+                createIncreasingTransfer(accountsNumber, valueRangeForTransfersAmount);
             }
         });
 
         taskExecutor.execute(() -> {
             for (int i = 0; i < transfersDecreasing; i++) {
-                createDecreasingTransfer(accountsNumber, valueIntervalForTransfers);
+                createDecreasingTransfer(accountsNumber, valueRangeForTransfersAmount);
             }
         });
         return fullBank;
