@@ -11,6 +11,9 @@ import {TodoListFooterComponent} from './todo-list-footer/todo-list-footer.compo
 import {TodoDataService} from "./api/services/todo-data.service";
 import { AccountListComponent } from './account-list/account-list.component';
 import {AccountService} from "./api/services/account.service";
+import {MatTableModule} from "@angular/material";
+import { TransferListComponent } from './transfer-list/transfer-list.component';
+import {TransferService} from "./api/services/transfer.service";
 
 @NgModule({
   declarations: [
@@ -19,14 +22,16 @@ import {AccountService} from "./api/services/account.service";
     TodoListComponent,
     TodoListItemComponent,
     TodoListFooterComponent,
-    AccountListComponent
+    AccountListComponent,
+    TransferListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
-  providers: [ TodoDataService, AccountService ],
+  providers: [ TodoDataService, AccountService, TransferService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

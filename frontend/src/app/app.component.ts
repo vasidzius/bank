@@ -3,6 +3,8 @@ import {TodoDataService} from "./api/services/todo-data.service";
 import {Todo} from "./model/todo";
 import {Account} from "./model/account";
 import {AccountService} from "./api/services/account.service";
+import {Transfer} from "./model/transfer";
+import {TransferService} from "./api/services/transfer.service";
 
 @Component({
   selector: 'app-root',
@@ -14,10 +16,12 @@ export class AppComponent implements OnInit{
 
   todos: Todo[] = [];
   accounts: Account[] = [];
+  transfers: Transfer[] = [];
 
   constructor(
     private todoDataService: TodoDataService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private transferService: TransferService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +38,14 @@ export class AppComponent implements OnInit{
       .subscribe(
         accounts => {
           this.accounts = accounts;
+        }
+      )
+
+    this.transferService
+      .findAllTransfers()
+      .subscribe(
+        transfers => {
+          this.transfers = transfers;
         }
       )
   }

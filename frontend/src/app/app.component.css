@@ -1,0 +1,14 @@
+.inlineTable {
+  display: inline-table;
+  margin: 0 20px;
+}
+
+.account-table {
+  width: 20%;
+}
+
+.transfer-table {
+  width: 70%;
+}
+
+

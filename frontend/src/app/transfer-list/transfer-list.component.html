@@ -2,7 +2,7 @@
 <button mat-raised-button (click)="removeColumn()"> Remove column </button>
 <button mat-raised-button (click)="shuffle()"> Shuffle </button>
 
-<table mat-table [dataSource]="accounts" class="mat-elevation-z8">
+<table mat-table [dataSource]="transfers" class="mat-elevation-z8">
   <ng-container matColumnDef="{{column}}" *ngFor="let column of definedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
