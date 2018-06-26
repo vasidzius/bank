@@ -23,8 +23,6 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/todomvc-common.css",
-              "src/assets/css/todomvc-app.css",
               "src/styles.css"
             ],
             "scripts": []

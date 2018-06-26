@@ -1,14 +1,19 @@
-<h1>Bank</h1>
-<app-account-list [accounts]="accounts" class="inlineTable account-table"></app-account-list>
-<app-transfer-list [transfers]="transfers" class="inlineTable transfer-table"></app-transfer-list>
-<section class="todoapp">
-
-  <app-todo-list-header (add)="onAddTodo($event)"></app-todo-list-header>
-
-  <app-todo-list [todos]="todos" (toggleComplete)="onToggleTodoComplete($event)"
-                 (remove)="onRemoveTodo($event)"></app-todo-list>
-
-  <app-todo-list-footer [todos]="todos"></app-todo-list-footer>
+<section class="mat-typography">
+  <h1>Bank</h1>
+  <button mat-raised-button (click)="generateRandomValues()">Generate Random Values</button>
+  <br>
+  <app-account-list [accounts]="accounts" class="inlineTable account-table"></app-account-list>
+  <app-transfer-list [transfers]="transfers" class="inlineTable transfer-table"></app-transfer-list>
 
 
+  <section class="todoapp">
+
+    <app-todo-list-header (add)="onAddTodo($event)"></app-todo-list-header>
+
+    <app-todo-list [todos]="todos" (toggleComplete)="onToggleTodoComplete($event)"
+                   (remove)="onRemoveTodo($event)"></app-todo-list>
+
+    <app-todo-list-footer [todos]="todos"></app-todo-list-footer>
+
+  </section>
 </section>

@@ -11,9 +11,10 @@ import {TodoListFooterComponent} from './todo-list-footer/todo-list-footer.compo
 import {TodoDataService} from "./api/services/todo-data.service";
 import { AccountListComponent } from './account-list/account-list.component';
 import {AccountService} from "./api/services/account.service";
-import {MatTableModule} from "@angular/material";
+import {MatButtonModule, MatInputModule, MatTableModule} from "@angular/material";
 import { TransferListComponent } from './transfer-list/transfer-list.component';
 import {TransferService} from "./api/services/transfer.service";
+import {ValueGeneratorService} from "./api/services/value-generator.service";
 
 @NgModule({
   declarations: [
@@ -29,9 +30,11 @@ import {TransferService} from "./api/services/transfer.service";
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule,
+    MatInputModule
   ],
-  providers: [ TodoDataService, AccountService, TransferService ],
+  providers: [ TodoDataService, AccountService, TransferService, ValueGeneratorService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

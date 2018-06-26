@@ -5,6 +5,7 @@ import {Account} from "./model/account";
 import {AccountService} from "./api/services/account.service";
 import {Transfer} from "./model/transfer";
 import {TransferService} from "./api/services/transfer.service";
+import {ValueGeneratorService} from "./api/services/value-generator.service";
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit{
   constructor(
     private todoDataService: TodoDataService,
     private accountService: AccountService,
-    private transferService: TransferService
+    private transferService: TransferService,
+    private valueGeneratorService: ValueGeneratorService
   ) {}
 
   ngOnInit(): void {
@@ -71,5 +73,10 @@ export class AppComponent implements OnInit{
           this.todos.push(newTodo);
         }
       );
+  }
+
+  generateRandomValues() {
+    this.valueGeneratorService.generate()
+      .subscribe();
   }
 }

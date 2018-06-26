@@ -19,32 +19,12 @@ export class TransferService {
    * @param transferRequest transferRequest
    */
   public createUsingPOST(transferRequest: TransferRequest): Observable<Transfer> {
-    // const path = API_URL + '/transfers';
-
-    // let queryParameters = new URLSearchParams();
-    // let headerParams = this.defaultHeaders;
 
     // verify required parameter 'transferRequest' is not null or undefined
     if (transferRequest === null || transferRequest === undefined) {
       throw new Error('Required parameter transferRequest was null or undefined when calling createUsingPOST.');
     }
-    // let requestOptions: RequestOptionsArgs = {
-    //   method: 'POST',
-    //   headers: headerParams,
-    //   search: queryParameters
-    // };
-    // requestOptions.body = JSON.stringify(transferRequest);
-
     return this.http.post<Transfer>(API_URL + '/transfers', transferRequest)
-
-    // return this.http.request(path, requestOptions)
-    //   .map((response: Response) => {
-    //     if (response.status === 204) {
-    //       return undefined;
-    //     } else {
-    //       return response.json();
-    //     }
-    //   });
   }
 
   /**
@@ -52,24 +32,6 @@ export class TransferService {
    *
    */
   public findAllTransfers(): Observable<Transfer[]> {
-
-    // let queryParameters = new URLSearchParams();
-    // let headerParams = this.defaultHeaders;
-    // let requestOptions: RequestOptionsArgs = {
-    //   method: 'GET',
-    //   headers: headerParams,
-    //   search: queryParameters
-    // };
-    //
-    // return this.http.request(path, requestOptions)
-    //   .map((response: Response) => {
-    //     if (response.status === 204) {
-    //       return undefined;
-    //     } else {
-    //       return response.json();
-    //     }
-    //   });
-
     return this.http.get<Transfer[]>(API_URL + '/transfers');
   }
 
@@ -79,31 +41,10 @@ export class TransferService {
    * @param transferId transferId
    */
   public findTransferById(transferId: number): Observable<Transfer> {
-    const path = API_URL + '/transfers/{transferId}'
-      .replace('{' + 'transferId' + '}', String(transferId));
-
-    // let queryParameters = new URLSearchParams();
-    // let headerParams = this.defaultHeaders;
-
     // verify required parameter 'transferId' is not null or undefined
     if (transferId === null || transferId === undefined) {
       throw new Error('Required parameter transferId was null or undefined when calling findUsingGET1.');
     }
-    // let requestOptions: RequestOptionsArgs = {
-    //   method: 'GET',
-    //   headers: headerParams,
-    //   search: queryParameters
-    // };
-    //
-    // return this.http.request(path, requestOptions)
-    //   .map((response: Response) => {
-    //     if (response.status === 204) {
-    //       return undefined;
-    //     } else {
-    //       return response.json();
-    //     }
-    //   });
-
     return this.http.get<Transfer>(API_URL + '/transfers/' + transferId);
   }
 
