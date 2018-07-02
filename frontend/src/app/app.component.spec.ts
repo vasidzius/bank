@@ -11,6 +11,10 @@ import {HttpClient, HttpHandler} from "@angular/common/http";
 import {ApiMockService} from "./api/api-mock.service";
 import {ApiService} from "./api/api.service";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {AccountService} from "./api/services/account.service";
+import {TransferService} from "./api/services/transfer.service";
+import {ValueGeneratorService} from "./api/services/value-generator.service";
+import {AccountMockService} from "./api/services/mock/account-mock.service";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -26,7 +30,15 @@ describe('AppComponent', () => {
         {
           provide: ApiService,
           useClass: ApiMockService
-        }
+        },
+        {
+          provide: AccountService,
+          useClass: AccountMockService
+        },
+        TransferService,
+        HttpClient,
+        HttpHandler,
+        ValueGeneratorService
       ],
       schemas: [
         NO_ERRORS_SCHEMA

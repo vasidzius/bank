@@ -1,0 +1,30 @@
+<section>
+  <form class="generator-form" (ngSubmit)="OnSubmit()">
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="accountNumber, defalut and min = 10"
+             [(ngModel)]="valueGeneratorRequest.accountsNumber" name="accountsNumber" type="number" min="10" [formControl]="accountsNumberControl">
+    </mat-form-field>
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="threadNumberBetweenTwo, default = 10"
+             [(ngModel)]="valueGeneratorRequest.threadNumberBetweenTwo" name="threadNumberBetweenTwo" type="number">
+    </mat-form-field>
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="transfersBetweenTwo, default = 10"
+             [(ngModel)]="valueGeneratorRequest.transfersBetweenTwo" name="transfersBetweenTwo" type="number">
+    </mat-form-field>
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="accountsToDelete, default = 10"
+             [(ngModel)]="valueGeneratorRequest.accountsToDelete" name="accountsToDelete" type="number">
+    </mat-form-field>
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="transfersIncreasing, default = 5"
+             [(ngModel)]="valueGeneratorRequest.transfersIncreasing" name="transfersIncreasing" type="number">
+    </mat-form-field>
+    <mat-form-field class="generator-field">
+      <input matInput placeholder="transfersDecreasing, default = 5"
+             [(ngModel)]="valueGeneratorRequest.transfersDecreasing" name="transfersDecreasing" type="number">
+    </mat-form-field>
+
+    <button mat-raised-button type="submit">Generate random values</button>
+  </form>
+</section>

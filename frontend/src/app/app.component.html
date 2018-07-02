@@ -1,7 +1,6 @@
 <section class="mat-typography">
   <h1>Bank</h1>
-  <button mat-raised-button (click)="generateRandomValues()">Generate Random Values</button>
-  <br>
+  <app-value-generator (generate)="onGenerateRandomValues($event)"></app-value-generator>
   <app-account-list [accounts]="accounts" class="inlineTable account-table"></app-account-list>
   <app-transfer-list [transfers]="transfers" class="inlineTable transfer-table"></app-transfer-list>
 

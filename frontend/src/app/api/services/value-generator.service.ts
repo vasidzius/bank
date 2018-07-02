@@ -11,15 +11,20 @@ export class ValueGeneratorService {
   constructor( private http: HttpClient ) {
   }
 
-
-  public generate(): Observable<Object> {
+  public generate(
+    accountsNumber: number = 10,
+    threadNumberBetweenTwo: number = 10,
+    transfersBetweenTwo: number = 10,
+    accountsToDelete: number = 5,
+    transfersIncreasing: number = 5,
+    transfersDecreasing: number = 5 ): Observable<Object> {
     let params = new HttpParams()
-      .set('accountsNumber', '100')
-      .set('threadNumberBetweenTwo', '10')
-      .set('transfersBetweenTwo', '10')
-      .set('accountsToDelete', '5')
-      .set('transfersIncreasing', '5')
-      .set('transfersDecreasing', '5');
+      .set('accountsNumber', accountsNumber.toString())
+      .set('threadNumberBetweenTwo', threadNumberBetweenTwo.toString())
+      .set('transfersBetweenTwo', transfersBetweenTwo.toString())
+      .set('accountsToDelete', accountsToDelete.toString())
+      .set('transfersIncreasing', transfersIncreasing.toString())
+      .set('transfersDecreasing', transfersDecreasing.toString());
     return this.http.post<Object>(API_URL + '/generateRandomValues', null, {params})
   }
 }

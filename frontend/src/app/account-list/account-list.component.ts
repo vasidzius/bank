@@ -16,7 +16,7 @@ export class AccountListComponent {
 
   constructor() { }
 
-  definedColumns = ['id', 'balance'];
+  definedColumns = ['id', 'balanceDoubleView', 'deleted'];
   columnsToDisplay = this.definedColumns.slice();
 
   addColumn() {

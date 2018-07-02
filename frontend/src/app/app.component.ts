@@ -6,6 +6,7 @@ import {AccountService} from "./api/services/account.service";
 import {Transfer} from "./model/transfer";
 import {TransferService} from "./api/services/transfer.service";
 import {ValueGeneratorService} from "./api/services/value-generator.service";
+import {ValueGeneratorRequest} from "./model/valueGeneratorRequest";
 
 @Component({
   selector: 'app-root',
@@ -75,8 +76,17 @@ export class AppComponent implements OnInit{
       );
   }
 
-  generateRandomValues() {
-    this.valueGeneratorService.generate()
+  onGenerateRandomValues(
+    valueGeneratorRequest : ValueGeneratorRequest
+  ) {
+    this.valueGeneratorService.generate(
+      valueGeneratorRequest.accountsNumber,
+      valueGeneratorRequest.threadNumberBetweenTwo,
+      valueGeneratorRequest.transfersBetweenTwo,
+      valueGeneratorRequest.accountsToDelete,
+      valueGeneratorRequest.transfersIncreasing,
+      valueGeneratorRequest.transfersDecreasing
+  )
       .subscribe();
   }
 }

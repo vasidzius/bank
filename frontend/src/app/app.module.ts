@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
@@ -15,6 +15,8 @@ import {MatButtonModule, MatInputModule, MatTableModule} from "@angular/material
 import { TransferListComponent } from './transfer-list/transfer-list.component';
 import {TransferService} from "./api/services/transfer.service";
 import {ValueGeneratorService} from "./api/services/value-generator.service";
+import { ValueGeneratorComponent } from './value-generator/value-generator.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import {ValueGeneratorService} from "./api/services/value-generator.service";
     TodoListItemComponent,
     TodoListFooterComponent,
     AccountListComponent,
-    TransferListComponent
+    TransferListComponent,
+    ValueGeneratorComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,9 @@ import {ValueGeneratorService} from "./api/services/value-generator.service";
     HttpClientModule,
     MatTableModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [ TodoDataService, AccountService, TransferService, ValueGeneratorService ],
   bootstrap: [ AppComponent ]

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountListComponent } from './account-list.component';
+import {MatButtonModule, MatInputModule, MatTableModule} from "@angular/material";
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -8,6 +9,11 @@ describe('AccountListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatTableModule,
+        MatButtonModule,
+        MatInputModule,
+      ],
       declarations: [ AccountListComponent ]
     })
     .compileComponents();

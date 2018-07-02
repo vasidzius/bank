@@ -24,8 +24,15 @@
 
 'use strict';
 
-export interface Account {
+export class Account {
 
+
+  constructor( balance: number, balanceDoubleView: number, deleted: boolean, id: number ) {
+    this.balance = balance;
+    this.balanceDoubleView = balanceDoubleView;
+    this.deleted = deleted;
+    this.id = id;
+  }
 
   /**
    * Internal representation of Balance, use Long type
