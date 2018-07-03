@@ -76,17 +76,8 @@ export class AppComponent implements OnInit{
       );
   }
 
-  onGenerateRandomValues(
-    valueGeneratorRequest : ValueGeneratorRequest
-  ) {
-    this.valueGeneratorService.generate(
-      valueGeneratorRequest.accountsNumber,
-      valueGeneratorRequest.threadNumberBetweenTwo,
-      valueGeneratorRequest.transfersBetweenTwo,
-      valueGeneratorRequest.accountsToDelete,
-      valueGeneratorRequest.transfersIncreasing,
-      valueGeneratorRequest.transfersDecreasing
-  )
+  onGenerateRandomValues( valueGeneratorRequest : ValueGeneratorRequest ) {
+    this.valueGeneratorService.generate(valueGeneratorRequest)
       .subscribe();
   }
 }
