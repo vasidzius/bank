@@ -20,11 +20,15 @@ public class AccountJdbcRepository extends NamedParameterJdbcTemplate {
     }
 
     public List<Account> findAll() {
-        return this.query("SELECT * FROM ACCOUNTS WHERE DELETED = 0", getAccountRowMapper());
+        return this.query("SELECT * FROM ACCOUNTS WHERE DELETED IS FALSE", getAccountRowMapper());
     }
 
     public List<Account> findAllDeleted() {
-        return this.query("SELECT * FROM ACCOUNTS WHERE DELETED = 1", getAccountRowMapper());
+        return this.query("SELECT * FROM ACCOUNTS WHERE DELETED IS TRUE", getAccountRowMapper());
+    }
+
+    public List<Account> findAllIncludeDeleted() {
+        return this.query("SELECT * FROM ACCOUNTS", getAccountRowMapper());
     }
 
     public Account insert(Account account) {
@@ -37,14 +41,12 @@ public class AccountJdbcRepository extends NamedParameterJdbcTemplate {
         return account;
     }
 
-    //@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public Account find(long accountId) {
         Map<String, Object> params = new HashMap<>();
         params.put("accountId", accountId);
             return this.queryForObject("SELECT * FROM ACCOUNTS WHERE ID = :accountId", params, getAccountRowMapper());
     }
 
-    //@Transactional(propagation = Propagation.MANDATORY)
     public void update(Account account){
         Map<String, Object> params = new HashMap<>();
         params.put("id", account.getId());

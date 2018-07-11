@@ -19,7 +19,6 @@ public class AccountJdbcRepositoryTest extends BaseTest {
     private AccountJdbcRepository accountJdbcRepository;
 
     @Test
-    //@Transactional
     public void update(){
         //given
         Account accountForUpdate = new Account();

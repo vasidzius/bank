@@ -3,8 +3,6 @@ package com.vasidzius.bank.controller;
 import com.vasidzius.bank.model.Account;
 import com.vasidzius.bank.model.Transfer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -26,21 +24,14 @@ public class TransfersExecutorImpl implements TransfersExecutor {
     private final AccountController accountController;
     private final LocksHolder locksHolder;
 
-    private TransfersExecutor transfersExecutor;
-
-    @Autowired
-    public void setTransfersExecutor(@Lazy TransfersExecutor transfersExecutor) {
-        this.transfersExecutor = transfersExecutor;
-    }
-
     @Override
     public void startTransfers() {
         LOGGER.log(Level.INFO, "Start transfers");
         long transferId = INITIAL_SEQUENCE_VALUE;
         while (true) {
-            if (transfersExecutor.isTransfersPresented(transferId)) {
+            if (isTransfersPresented(transferId)) {
                 Transfer transfer = transferController.find(transferId).getBody();
-                transfersExecutor.passToExecution(transfer);
+                passToExecution(transfer);
                 transferId++;
             }
         }
@@ -49,20 +40,19 @@ public class TransfersExecutorImpl implements TransfersExecutor {
     @Override
     public void startTransfersForTesting() {
         long transferId = INITIAL_SEQUENCE_VALUE;
-        while (transfersExecutor.isTransfersPresented(transferId)) {
+        while (isTransfersPresented(transferId)) {
             Transfer transfer = transferController.find(transferId).getBody();
-            transfersExecutor.passToExecution(transfer);
+            passToExecution(transfer);
             transferId++;
         }
     }
 
     @Override
     public void passToExecution(Transfer transfer) {
-        taskExecutor.execute(() -> transfersExecutor.executeTransfer(transfer));
+        taskExecutor.execute(() -> executeTransfer(transfer));
     }
 
     @Override
-    //@Transactional(propagation = Propagation.REQUIRES_NEW)
     public void executeTransfer(Transfer transfer) {
         if (transfer.getToAccountId() == null && transfer.getFromAccountId() == null) {
             throw new IllegalArgumentException("Both accounts are null");
@@ -95,12 +85,15 @@ public class TransfersExecutorImpl implements TransfersExecutor {
         long fromAccountId = transfer.getFromAccountId();
         long toAccountId = transfer.getToAccountId();
 
-        Object first = locksHolder.getLocks().get(fromAccountId);
-        Object second = locksHolder.getLocks().get(toAccountId);
+        Object first;
+        Object second;
 
         if (fromAccountId > toAccountId) {
             first = locksHolder.getLocks().get(toAccountId);
             second = locksHolder.getLocks().get(fromAccountId);
+        } else {
+            first = locksHolder.getLocks().get(fromAccountId);
+            second = locksHolder.getLocks().get(toAccountId);
         }
 
         synchronized (first) {

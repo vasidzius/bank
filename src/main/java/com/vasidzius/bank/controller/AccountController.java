@@ -89,4 +89,17 @@ public class AccountController {
         }
         return ResponseEntity.ok(allDeleted);
     }
+
+    @ApiOperation(value = "Show all Accounts include deleted")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "There are no accounts")
+    })
+    @GetMapping("/allIncludeDeleted")
+    public ResponseEntity<List<Account>> findAllIncludeDeleted() {
+        List<Account> allIncludeDeleted = accountRepository.findAllIncludeDeleted();
+        if (allIncludeDeleted.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(allIncludeDeleted);
+        }
+        return ResponseEntity.ok(allIncludeDeleted);
+    }
 }

@@ -37,14 +37,12 @@ public class TransferJdbcRepository extends NamedParameterJdbcTemplate{
         return transfer;
     }
 
-    //@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public Transfer find(long transferId) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", transferId);
         return this.queryForObject("SELECT * FROM TRANSFERS WHERE ID = :id", params, getTransferRowMapper());
     }
 
-    //@Transactional(propagation = Propagation.MANDATORY)
     public void update(Transfer transfer){
         Map<String, Object> params = new HashMap<>();
         params.put("id", transfer.getId());

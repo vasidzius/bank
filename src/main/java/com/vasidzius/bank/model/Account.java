@@ -10,12 +10,15 @@ import lombok.EqualsAndHashCode;
 @ApiModel
 public class Account {
 
-    public Account(long balance){
+    public Account(long balance) {
         this.balance = balance;
     }
 
-    public Account(double balance){
-        this.balance = (long)(balance * 100);
+    public Account(double balance) {
+        this.balance = (long) (balance * 100);
+    }
+
+    public Account() {
     }
 
     @ApiModelProperty(readOnly = true)
@@ -25,19 +28,17 @@ public class Account {
     @ApiModelProperty(value = "Is Account deleted?")
     private boolean deleted;
 
-    public Account() {
-    }
 
     @ApiModelProperty(value = "External representation of Balance, use Double type", readOnly = true)
     public double getBalanceDoubleView() {
-        return ((double)balance) / 100;
+        return ((double) balance) / 100;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Account{");
         sb.append("id=").append(id);
-        sb.append(", balance=").append((double)balance / 100);
+        sb.append(", balance=").append((double) balance / 100);
         sb.append(", deleted=").append(deleted);
         sb.append('}');
         return sb.toString();

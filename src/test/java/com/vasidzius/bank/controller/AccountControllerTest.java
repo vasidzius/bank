@@ -38,7 +38,9 @@ public class AccountControllerTest extends BaseTest {
 
         //then
         assertEquals(250, insertedAccount1.getBalanceDoubleView(), 1E-6);
+        assertEquals(1000, insertedAccount1.getId());
         assertEquals(3.50, insertedAccount2.getBalanceDoubleView(), 1E-6);
+        assertEquals(1001, insertedAccount2.getId());
         assertEquals(6, locksHolder.getLocks().size());
     }
 

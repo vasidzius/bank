@@ -47,7 +47,7 @@ public class TransfersExecutorTest extends BaseTest {
 
     @Test
     @Ignore
-    public void BFT() {
+    public void bigFT() {
         //given
         runFT(1234567,
                 100,
@@ -60,7 +60,7 @@ public class TransfersExecutorTest extends BaseTest {
 
     @Test
 //    @Ignore
-    public void sFT() {
+    public void smallFT() {
         //given
         runFT(123456,
                 100,
@@ -311,7 +311,6 @@ public class TransfersExecutorTest extends BaseTest {
     }
 
     @Test
-    //@Transactional
     public void executeTransfer() {
         //given
         Transfer transfer = transferController.find(1).getBody();

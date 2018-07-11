@@ -19,13 +19,16 @@ public class ValueGeneratorController {
     @ApiOperation(value = "Generate random values")
     @PostMapping
     public ResponseEntity generateRandomValues(
-            @RequestParam(value = "accountsNumber", defaultValue = "1") int accountsNumber,
+            @RequestParam(value = "accountsNumber", defaultValue = "2") int accountsNumber,
             @RequestParam(value = "threadNumberBetweenTwo", defaultValue = "1") int threadNumberBetweenTwo,
             @RequestParam(value = "transfersBetweenTwo", defaultValue = "1") int transfersBetweenTwo,
             @RequestParam(value = "accountsToDelete", defaultValue = "1") int accountsToDelete,
             @RequestParam(value = "transfersIncreasing", defaultValue = "1") int transfersIncreasing,
             @RequestParam(value = "transfersDecreasing", defaultValue = "1") int transfersDecreasing) {
         try {
+            if(accountsNumber < 2){
+                throw new IllegalArgumentException("accountsNumber must be great than 1");
+            }
             valueGenerator.generateValues(
                     accountsNumber,
                     threadNumberBetweenTwo,

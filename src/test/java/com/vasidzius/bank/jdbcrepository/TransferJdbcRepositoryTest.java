@@ -67,7 +67,6 @@ public class TransferJdbcRepositoryTest extends BaseTest {
     }
 
     @Test
-    //@Transactional
     public void update() {
         //given
         Transfer transferToBeUpdated = transferJdbcRepository.find(1);

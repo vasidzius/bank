@@ -2,7 +2,7 @@ CREATE TABLE ACCOUNTS
 (
     ID BIGINT not null,
     BALANCE DOUBLE not null,
-    DELETED VARCHAR(1) not null DEFAULT(0),
+    DELETED BOOLEAN not null DEFAULT(FALSE),
     PRIMARY KEY (ID)
 );
 
