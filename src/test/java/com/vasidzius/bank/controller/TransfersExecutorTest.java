@@ -46,7 +46,7 @@ public class TransfersExecutorTest extends BaseTest {
     private Random random = new Random();
 
     @Test
-    @Ignore
+//    @Ignore
     public void bigFT() {
         //given
         runFT(1234567,
