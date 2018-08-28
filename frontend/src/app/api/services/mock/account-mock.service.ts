@@ -33,7 +33,7 @@ export class AccountMockService {
    * Show all deleted Accounts
    *
    */
-  public findAllDeletedUsingGET(): Observable<Account[]> {
+  public findAllIncludeDeletedUsingGET(): Observable<Account[]> {
     return Observable.create(
       [
         new Account(100, 1, true, 1)

@@ -1,7 +1,13 @@
+.table-container{
+  max-height: 400px;
+  overflow: auto;
+}
+
 table {
-  width: 70%;
+  width: 95%;
 }
 
 button {
   margin: 16px 8px;
 }
+

@@ -28,6 +28,22 @@ export class AppComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this.accountService
+      .findAllIncludeDeletedUsingGET()
+      .subscribe(
+        accounts => {
+          this.accounts = accounts;
+        }
+      )
+
+    this.transferService
+      .findAllTransfers()
+      .subscribe(
+        transfers => {
+          this.transfers = transfers;
+        }
+      )
+
     this.todoDataService
       .getAllTodos()
       .subscribe(
@@ -35,9 +51,11 @@ export class AppComponent implements OnInit{
           this.todos = todos;
         }
       )
+  }
 
+  refresh(): void {
     this.accountService
-      .findAllUsingGET()
+      .findAllIncludeDeletedUsingGET()
       .subscribe(
         accounts => {
           this.accounts = accounts;
@@ -77,7 +95,9 @@ export class AppComponent implements OnInit{
   }
 
   onGenerateRandomValues( valueGeneratorRequest : ValueGeneratorRequest ) {
+    this.refresh();
     this.valueGeneratorService.generate(valueGeneratorRequest)
       .subscribe();
+    this.refresh();
   }
 }

@@ -39,8 +39,8 @@ export class AccountService {
    * Show all deleted Accounts
    *
    */
-  public findAllDeletedUsingGET(): Observable<Account[]> {
-    return this.http.get<Account[]>(API_URL + '/accounts/allDeleted');
+  public findAllIncludeDeletedUsingGET(): Observable<Account[]> {
+    return this.http.get<Account[]>(API_URL + '/accounts/allIncludeDeleted');
   }
 
   /**
