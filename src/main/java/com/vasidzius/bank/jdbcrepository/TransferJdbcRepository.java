@@ -1,6 +1,7 @@
 package com.vasidzius.bank.jdbcrepository;
 
 import com.vasidzius.bank.model.Transfer;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,6 +22,18 @@ public class TransferJdbcRepository extends NamedParameterJdbcTemplate{
         super(dataSource);
     }
 
+    @SneakyThrows
+    public List<Transfer> findAllAfter(long beginIndex) {
+        simulateDataConnectionDelay();
+        Map<String, Object> params = new HashMap<>();
+        params.put("beginIndex", beginIndex);
+        return this.query("SELECT * FROM TRANSFERS WHERE ID >= :beginIndex", params, getTransferRowMapper());
+    }
+
+    private void simulateDataConnectionDelay() throws InterruptedException {
+        Thread.sleep(1);
+    }
+
     public List<Transfer> findAll(){
         return this.query("SELECT * FROM TRANSFERS", getTransferRowMapper());
     }
@@ -37,7 +50,9 @@ public class TransferJdbcRepository extends NamedParameterJdbcTemplate{
         return transfer;
     }
 
+    @SneakyThrows
     public Transfer find(long transferId) {
+        simulateDataConnectionDelay();
         Map<String, Object> params = new HashMap<>();
         params.put("id", transferId);
         return this.queryForObject("SELECT * FROM TRANSFERS WHERE ID = :id", params, getTransferRowMapper());

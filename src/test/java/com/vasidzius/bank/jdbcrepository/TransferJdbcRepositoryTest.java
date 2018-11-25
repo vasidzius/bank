@@ -1,18 +1,11 @@
 package com.vasidzius.bank.jdbcrepository;
 
-import com.vasidzius.bank.BankApplication;
 import com.vasidzius.bank.BaseTest;
 import com.vasidzius.bank.model.Transfer;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +16,15 @@ public class TransferJdbcRepositoryTest extends BaseTest {
 
     @Autowired
     private TransferJdbcRepository transferJdbcRepository;
+
+    @Test
+    public void findAllAfter() {
+        //when
+        List<Transfer> all = transferJdbcRepository.findAllAfter(3);
+
+        //then
+        assertEquals(2, all.size());
+    }
 
     @Test
     public void findAll() {

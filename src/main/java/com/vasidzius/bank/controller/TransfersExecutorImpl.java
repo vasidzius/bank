@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
@@ -39,12 +40,18 @@ public class TransfersExecutorImpl implements TransfersExecutor {
 
     @Override
     public void startTransfersForTesting() {
-        long transferId = INITIAL_SEQUENCE_VALUE;
-        while (isTransfersPresented(transferId)) {
-            Transfer transfer = transferController.find(transferId).getBody();
-            passToExecution(transfer);
-            transferId++;
+        long beginIndex = INITIAL_SEQUENCE_VALUE;
+
+        while(isTransfersPresented(beginIndex)){
+            List<Transfer> transfers = transferController.findAllAfter(beginIndex).getBody();
+            assert transfers != null;
+            transfers.parallelStream().forEach(this::executeTransfer);
+            beginIndex = getLastIndex(transfers) + 1;
         }
+    }
+
+    private long getLastIndex(List<Transfer> transfers) {
+        return transfers.stream().mapToLong(Transfer::getId).max().orElse(INITIAL_SEQUENCE_VALUE);
     }
 
     @Override

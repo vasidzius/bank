@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,6 +30,19 @@ public class TransferController {
     @GetMapping
     public ResponseEntity<List<Transfer>> findAll() {
         List<Transfer> all = transferJdbcRepository.findAll();
+        if (all.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(all);
+        }
+        return ResponseEntity.ok(all);
+    }
+
+    @ApiOperation(value = "view a list of all existing Transfers that more than beginIndex")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "There are no Transfers")
+    })
+    @GetMapping(value = "/after/{beginIndex}")
+    public ResponseEntity<List<Transfer>> findAllAfter(long beginIndex) {
+        List<Transfer> all = transferJdbcRepository.findAllAfter(beginIndex);
         if (all.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(all);
         }
