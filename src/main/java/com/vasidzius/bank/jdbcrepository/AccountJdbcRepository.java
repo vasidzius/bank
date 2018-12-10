@@ -56,7 +56,7 @@ public class AccountJdbcRepository extends NamedParameterJdbcTemplate {
     }
 
     public void delete(long accountId) {
-        this.getJdbcOperations().update("UPDATE ACCOUNTS SET DELETED = 1 WHERE ID = " + accountId);
+        this.getJdbcOperations().update("UPDATE ACCOUNTS SET DELETED = TRUE WHERE ID = " + accountId);
     }
 
     private RowMapper<Account> getAccountRowMapper() {
