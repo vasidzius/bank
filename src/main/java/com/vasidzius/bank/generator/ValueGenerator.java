@@ -13,7 +13,7 @@ import java.util.concurrent.Executor;
 import java.util.logging.Logger;
 
 import static com.vasidzius.bank.generator.GeneratingAmount.getAmount;
-import static com.vasidzius.bank.spring.Constants.INITIAL_SEQUENCE_VALUE;
+import static com.vasidzius.bank.config.Constants.INITIAL_SEQUENCE_VALUE;
 
 @Component
 @RequiredArgsConstructor

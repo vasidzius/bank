@@ -1,7 +1,6 @@
-package com.vasidzius.bank.controller;
+package com.vasidzius.bank.model;
 
 import com.vasidzius.bank.jdbcrepository.AccountJdbcRepository;
-import com.vasidzius.bank.model.Account;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

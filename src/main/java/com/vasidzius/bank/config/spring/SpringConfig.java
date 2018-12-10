@@ -1,4 +1,4 @@
-package com.vasidzius.bank.spring;
+package com.vasidzius.bank.config.spring;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.context.annotation.Bean;

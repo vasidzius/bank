@@ -1,4 +1,4 @@
-package com.vasidzius.bank.spring;
+package com.vasidzius.bank.config;
 
 public class Constants {
 

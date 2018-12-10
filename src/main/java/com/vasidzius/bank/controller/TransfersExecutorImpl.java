@@ -1,6 +1,7 @@
 package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.model.Account;
+import com.vasidzius.bank.model.LocksHolder;
 import com.vasidzius.bank.model.Transfer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.vasidzius.bank.spring.Constants.INITIAL_SEQUENCE_VALUE;
+import static com.vasidzius.bank.config.Constants.INITIAL_SEQUENCE_VALUE;
 
 @Component
 @RequiredArgsConstructor

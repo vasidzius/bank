@@ -4,7 +4,6 @@ import com.vasidzius.bank.BaseTest;
 import com.vasidzius.bank.generator.ValueGenerator;
 import com.vasidzius.bank.model.Account;
 import com.vasidzius.bank.model.Transfer;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.vasidzius.bank.spring.Constants.INITIAL_SEQUENCE_VALUE;
+import static com.vasidzius.bank.config.Constants.INITIAL_SEQUENCE_VALUE;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

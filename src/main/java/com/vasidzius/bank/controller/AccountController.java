@@ -2,6 +2,7 @@ package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.jdbcrepository.AccountJdbcRepository;
 import com.vasidzius.bank.model.Account;
+import com.vasidzius.bank.model.LocksHolder;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,11 +37,11 @@ public class AccountController {
 
     @ApiOperation(value = "create Account by setting up balance in double form like ##.##")
     @PostMapping
-    public Account createAccount(@ApiParam(value = "only two digits after dot is allowed", required = true) @RequestBody double balance) {
+    public ResponseEntity<Account> createAccount(@ApiParam(value = "only two digits after dot is allowed", required = true) @RequestBody double balance) {
         Account account = new Account(balance);
         Account insertedAccount = accountRepository.insert(account);
         locksHolder.getLocks().put(insertedAccount.getId(), new Object());
-        return insertedAccount;
+        return ResponseEntity.ok(insertedAccount);
     }
 
     @ApiOperation(value = "Find Account by Id")
@@ -73,7 +74,7 @@ public class AccountController {
         }
     }
 
-    public void update(Account account) {
+    void update(Account account) {
         accountRepository.update(account);
     }
 

@@ -2,6 +2,7 @@ package com.vasidzius.bank.controller;
 
 import com.vasidzius.bank.BaseTest;
 import com.vasidzius.bank.model.Account;
+import com.vasidzius.bank.model.LocksHolder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,21 +34,21 @@ public class AccountControllerTest extends BaseTest {
     @Test
     public void createAccount() {
         //when
-        Account insertedAccount1 = accountController.createAccount(250);
-        Account insertedAccount2 = accountController.createAccount(3.50);
+        ResponseEntity<Account> insertedAccount1 = accountController.createAccount(250);
+        ResponseEntity<Account> insertedAccount2 = accountController.createAccount(3.50);
 
         //then
-        assertEquals(250, insertedAccount1.getBalanceDoubleView(), 1E-6);
-        assertEquals(1000, insertedAccount1.getId());
-        assertEquals(3.50, insertedAccount2.getBalanceDoubleView(), 1E-6);
-        assertEquals(1001, insertedAccount2.getId());
+        assertEquals(250, insertedAccount1.getBody().getBalanceDoubleView(), 1E-6);
+        assertEquals(1000, insertedAccount1.getBody().getId());
+        assertEquals(3.50, insertedAccount2.getBody().getBalanceDoubleView(), 1E-6);
+        assertEquals(1001, insertedAccount2.getBody().getId());
         assertEquals(6, locksHolder.getLocks().size());
     }
 
     @Test
     public void deleteAccount() {
         //given
-        Account insertedAccount = accountController.createAccount(250);
+        accountController.createAccount(250);
 
         //when
         accountController.deleteAccount(1);

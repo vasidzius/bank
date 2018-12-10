@@ -9,9 +9,6 @@ public class TransferRequest {
     private Long toAccountId;
     private double amount;
 
-    public TransferRequest() {
-    }
-
     public TransferRequest(Long fromAccountId, Long toAccountId, double amount) {
         this.fromAccountId = fromAccountId;
         this.toAccountId = toAccountId;
